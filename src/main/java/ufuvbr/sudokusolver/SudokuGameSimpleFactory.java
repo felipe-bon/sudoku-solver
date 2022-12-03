@@ -9,7 +9,7 @@ public class SudokuGameSimpleFactory {
     public static ArrayList<Integer> makeRandomColoring() {
         ArrayList<Integer> coloring = new ArrayList<>();
         for (int i = 0; i < 81; i++) {
-            coloring.add(0);
+            coloring.add(null);
         }
         return coloring;
     }
