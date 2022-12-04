@@ -1,9 +1,11 @@
 package ufuvbr.sudokusolver;
 
-import ufuvbr.sudokusolver.strategies.SolverChuverinhoStrategy;
+import ufuvbr.sudokusolver.strategies.SolverChuveirinhoStrategy;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(SudokuGameSimpleFactory.createSudoku(SolverChuverinhoStrategy.class).toString());
+        SudokuGame sudokuGame =  SudokuGameSimpleFactory.createSudoku(SolverChuveirinhoStrategy.class);
+        System.out.println(sudokuGame);
+        System.out.println(sudokuGame.solve().toString());
     }
 }

@@ -1,6 +1,8 @@
 package ufuvbr.sudokusolver;
 
-import ufuvbr.sudokusolver.strategies.SolverChuverinhoStrategy;
+import ufuvbr.sudokusolver.graphs.adjacencylist.Graph;
+import ufuvbr.sudokusolver.graphs.adjacencylist.GraphSudokuVertex;
+import ufuvbr.sudokusolver.strategies.SolverChuveirinhoStrategy;
 import ufuvbr.sudokusolver.strategies.SolverStrategy;
 
 import java.util.ArrayList;
@@ -41,15 +43,24 @@ public class SudokuGameSimpleFactory {
         coloring.set(76, 8);
         coloring.set(79, 7);
         coloring.set(80, 9);
+
         return coloring;
     }
+
+    public static SudokuGame createSudoku(Graph graph) {
+        return SudokuGame.builder()
+                .colorings(new ArrayList<>(graph.getAdjacencyList().stream().map(GraphSudokuVertex::getColor).toList()))
+                .build();
+    }
+
     public static SudokuGame createSudoku(Class<? extends SolverStrategy> solverStrategyClass) {
-        if (SolverChuverinhoStrategy.class.equals(solverStrategyClass)) {
-            return SudokuGame
+        if (SolverChuveirinhoStrategy.class.equals(solverStrategyClass)) {
+            SudokuGame sudokuGame = SudokuGame
                     .builder()
                     .colorings(makeRandomColoring())
-                    .solverStrategy(new SolverChuverinhoStrategy())
                     .build();
+            sudokuGame.setSolverStrategy(new SolverChuveirinhoStrategy(sudokuGame));
+            return sudokuGame;
         }
 
         throw new IllegalArgumentException("Missing Solver Strategy Class");

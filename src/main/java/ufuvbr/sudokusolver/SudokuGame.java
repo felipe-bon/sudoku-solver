@@ -1,6 +1,7 @@
 package ufuvbr.sudokusolver;
 
 import lombok.*;
+import ufuvbr.sudokusolver.graphs.adjacencylist.Graph;
 import ufuvbr.sudokusolver.strategies.SolverStrategy;
 
 import java.util.ArrayList;
@@ -9,22 +10,35 @@ import java.util.ArrayList;
 @Getter
 @AllArgsConstructor
 @Builder
-public class SudokuGame implements SolverStrategy {
+public class SudokuGame {
     private ArrayList<Integer> colorings;
     private SolverStrategy solverStrategy;
+    @Builder.Default
+    private int lines = 9;
+    @Builder.Default
+    private int subgridsPerLine = 3;
+    @Builder.Default
+    private int subgridsPerColumn = 3;
+    @Builder.Default
+    private int elementsPerLineOfSubgrid = 3;
 
-    @Override
-    public ArrayList<Integer> solve(SudokuGame sudokuGame) {
-        return solverStrategy.solve(this);
+    public int getLineSize() { return this.subgridsPerLine * this.elementsPerLineOfSubgrid; }
+    public int maxI() {
+        return this.lines * (this.subgridsPerLine * this.elementsPerLineOfSubgrid);
+    }
+
+    public SudokuGame solve() {
+        Graph solvedSudokuGraphColoring = solverStrategy.solve();
+        return SudokuGameSimpleFactory.createSudoku(solvedSudokuGraphColoring);
     }
 
     @Override
     public String toString() {
         StringBuilder sudokuGrids = new StringBuilder();
-        for (int line = 0; line < 9; line++) {
-            for (int subgrid = 0; subgrid < 3; subgrid++) {
-                for (int subgridElement = 0; subgridElement < 3; subgridElement++) {
-                    Integer colorOfPosition = colorings.get(line * 9 + subgrid * 3 + subgridElement);
+        for (int line = 0; line < lines; line++) {
+            for (int subgrid = 0; subgrid < subgridsPerLine; subgrid++) {
+                for (int subgridElement = 0; subgridElement < elementsPerLineOfSubgrid; subgridElement++) {
+                    Integer colorOfPosition = colorings.get(line * this.lines + subgrid * this.subgridsPerLine + subgridElement);
                     sudokuGrids.append(" ");
                     sudokuGrids.append(colorOfPosition != null ? colorOfPosition : " ");
                     sudokuGrids.append(" ");
