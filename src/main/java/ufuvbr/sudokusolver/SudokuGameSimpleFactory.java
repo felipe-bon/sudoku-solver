@@ -14,7 +14,7 @@ public class SudokuGameSimpleFactory {
             coloring.add(null);
         }
         coloring.set(0, 5);
-        coloring.set(1, 5);
+        coloring.set(1, 3);
         coloring.set(4, 7);
         coloring.set(9, 6);
         coloring.set(12, 1);

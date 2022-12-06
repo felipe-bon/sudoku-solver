@@ -74,7 +74,11 @@ public class SolverChuveirinhoStrategy implements SolverStrategy {
     public Graph solve() {
         Graph chuveirinho = makeChuveirinho();
 
-        chuveirinho.getAdjacencyList().forEach(graphSudokuVertex -> graphSudokuVertex.setColor(graphSudokuVertex.getColor() != null ? graphSudokuVertex.getColor() : 0));
+        chuveirinho.getAdjacencyList()
+                .forEach(graphSudokuVertex -> graphSudokuVertex
+                        .setColor(graphSudokuVertex.getColor() != null
+                                ? graphSudokuVertex.getColor()
+                                : 0));
 
         return chuveirinho;
     }
